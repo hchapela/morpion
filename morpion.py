@@ -17,16 +17,29 @@ def printGrid(grid):
 
 #-----------------------------------------------------
 
-def assignGrid(grid, char):
-    x = 4
-    y = 4
-    print("")
-    while(x < 0 or x >= 3):
-        x = int(input("x = ")) - 1
-    while(y < 0 or y >= 3):
-        y = int(input("y = ")) - 1
-    grid[y][x] = char
-    return grid
+def assignGrid(pion,grid):
+    x=4
+    y=4
+    cond=True
+    while(cond==True):
+        x=int(input("Entrez colonne"))-1
+        y=int(input("Entrez ligne"))-1
+        if  x>=0 and x<3 and y>=0 and x<3:
+            if grid[y][x]==".":
+                grid[y][x]=pion
+                cond=False
+                return grid
+            else:
+                return False
+
+#-----------------------------------------------------
+
+def egalite(gr):
+    for i in gr:
+        for el in i:
+            if el==".":
+                 return False
+    return True
 
 #-----------------------------------------------------
 
@@ -62,15 +75,17 @@ def checkWin(grid, char):
 def main():
     row = 0
     grid = initGrid(3, ".")
-    while(checkWin(grid, "X") == False and checkWin(grid, "O") == False):
+    partie = False
+    while(partie == False) and (checkWin(grid, "X") == False) and (checkWin(grid, "O") == False):
         if row % 2 == 0:
             char = "X"
         else:
             char = "O"
-        grid = assignGrid(grid, char)
-        print("\n","row : ", row, "***************************************", "\n")
-        printGrid(grid)
-        row += 1
+        state = assignGrid(char, grid)
+        if state != False:
+            row += 1
+            printGrid(state)
+        partie = egalite(grid)
     print("END OF THE GAME PLAYER :", char, " WON THE GAME")
 
 #-----------------------------------------------------
